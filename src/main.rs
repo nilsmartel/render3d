@@ -22,6 +22,18 @@ impl Add for Vector3 {
     }
 }
 
+impl Mul<f32> for Vector3 {
+    type Output = Self;
+
+    fn mul(self, scalar: f32) -> Self {
+        Vector3(
+            self.0 * scalar,
+            self.1 * scalar,
+            self.2 * scalar
+        )
+    }
+}
+
 struct Matrix3x3 {
     value: [f32; 9]
 }
