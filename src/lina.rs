@@ -35,6 +35,31 @@ impl Mul<f32> for Vector3 {
     }
 }
 
+#[derive(Debug, Copy, Clone)]
+pub struct Vector2(f32, f32);
+
+impl Vector2 {
+    pub fn new(x: f32, y: f32) -> Self {
+        Vector2(x, y)
+    }
+}
+
+impl Add for Vector2 {
+    type Output = Vector2;
+
+    fn add(self, other: Vector2) -> Vector2 {
+        Vector2(self.0 + other.0, self.1 + other.1)
+    }
+}
+
+impl Mul<f32> for Vector2 {
+    type Output = Self;
+
+    fn mul(self, scalar: f32) -> Self {
+        Vector2(self.0 * scalar, self.1 * scalar)
+    }
+}
+
 pub struct Matrix3x3(Vector3, Vector3, Vector3);
 
 impl Matrix3x3 {
