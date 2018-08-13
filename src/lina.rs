@@ -93,3 +93,31 @@ impl Mul<Vector3> for Matrix3x3 {
         )
     }
 }
+
+pub struct Matrix2x2(Vector2, Vector2);
+
+impl Matrix2x2 {
+    pub fn identity() -> Matrix2x2 {
+        Matrix2x2(
+            Vector2(1.0, 0.0),
+            Vector2(0.0, 1.0)
+        )
+    }
+}
+
+impl Mul<Vector2> for Matrix2x2 {
+    type Output = Vector2;
+
+    fn mul(self, v: Vector2) -> Self::Output {
+        Vector2(
+            v.0 * (self.0).0,
+            v.1 * (self.1).1
+        ) +
+        Vector2(
+            v.0 * (self.0).0,
+            v.1 * (self.1).1
+        )
+    }
+}
+
+
