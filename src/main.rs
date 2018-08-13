@@ -1,5 +1,6 @@
 
 mod lina;
+mod mesh;
 
 fn main() {
     let v = lina::Vector3::new(1.0, 2.0, 3.0);
