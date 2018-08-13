@@ -119,5 +119,3 @@ impl Mul<Vector2> for Matrix2x2 {
         )
     }
 }
-
-

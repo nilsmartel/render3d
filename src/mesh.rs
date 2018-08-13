@@ -28,11 +28,11 @@ impl Face {
         ) -> Face { Face {vertex, normal, uv_coordinate} }   
 }
  
-impl<'a> IntoIterator for Mesh {
+impl<'a> IntoIterator for &'a Mesh {
     type IntoIter = MeshIterator<'a>;
     type Item = Face;
 
-    fn into_iter(&'a self) -> MeshIterator<'a> {
+    fn into_iter(self) -> MeshIterator<'a> {
         MeshIterator {
             mesh: self,
             current: 0
