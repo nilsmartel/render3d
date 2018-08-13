@@ -72,6 +72,28 @@ impl Matrix3x3 {
     }
 }
 
+impl<'a > Mul<Vector3> for &'a Matrix3x3 {
+    type Output = Vector3;
+
+    fn mul(self, v: Vector3) -> Self::Output {
+        Vector3(
+            v.0 * (self.0).0,
+            v.1 * (self.1).1,
+            v.2 * (self.2).2
+        ) +
+        Vector3(
+            v.0 * (self.0).0,
+            v.1 * (self.1).1,
+            v.2 * (self.2).2
+        ) +
+        Vector3(
+            v.0 * (self.0).0,
+            v.1 * (self.1).1,
+            v.2 * (self.2).2
+        )
+    }
+}
+
 impl Mul<Vector3> for Matrix3x3 {
     type Output = Vector3;
 
