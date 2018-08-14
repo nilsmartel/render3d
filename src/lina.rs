@@ -1,4 +1,4 @@
-use std::ops::{Add, Mul};
+use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Vector3(f32, f32, f32);
@@ -26,7 +26,7 @@ impl Mul<f32> for Vector3 {
 }
 
 #[derive(Debug, Copy, Clone)]
-pub struct Vector2<T>(T, T);
+pub struct Vector2<T>(pub T, pub T);
 
 impl<T> Vector2<T> {
     pub fn new(x: T, y: T) -> Self {
@@ -42,6 +42,17 @@ where
 
     fn add(self, other: Vector2<T>) -> Self::Output {
         Vector2(self.0 + other.0, self.1 + other.1)
+    }
+}
+
+impl<T> Sub for Vector2<T>
+where
+    T: Sub<T>,
+{
+    type Output = Vector2<<T as Sub>::Output>;
+
+    fn sub(self, other: Vector2<T>) -> Self::Output {
+        Vector2(self.0 - other.0, self.1 - other.1)
     }
 }
 
