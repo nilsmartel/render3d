@@ -8,6 +8,27 @@ pub struct Mesh {
     faces: Vec<FaceIDs>
 }
 
+impl Mesh {
+    fn new(
+        vertecise: Vec<lina::Vector3>,
+        normals: Vec<lina::Vector3>,
+        uv_coordinates: Vec<lina::Vector2>,
+        faces: Vec<FaceIDs>
+        ) -> Mesh {
+        Mesh { vertecise, normals, uv_coordinates, faces }
+    }
+
+    pub fn transform(&self, matrix: &lina::Matrix3x3) -> Mesh {
+        Mesh::new(
+            self.vertecise.iter().map(|v| matrix * *v).collect(),
+            self.normals.iter().map(|v| matrix * *v).collect(),
+            self.uv_coordinates.clone(),
+            self.faces.clone()
+            )
+    }
+}
+
+#[derive(Clone)]
 struct FaceIDs {
     vert_id: usize,
     normal_id: usize,
