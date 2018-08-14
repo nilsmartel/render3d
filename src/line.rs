@@ -2,21 +2,10 @@ use lina::Vector2;
 
 type Point = Vector2<i32>;
 
-pub struct Line {
-    x: i32,
-    y: i32,
-    dx: i32,
-    dy: i32,
-    x1: i32,
-    diff: i32,
-    octant: Octant,
-}
-
 struct Octant(u8);
 
 impl Octant {
     /// adapted from http://codereview.stackexchange.com/a/95551
-    #[inline]
     fn from_points(start: Point, end: Point) -> Octant {
         let mut dx = end.0 - start.0;
         let mut dy = end.1 - start.1;
@@ -43,7 +32,6 @@ impl Octant {
         Octant(octant)
     }
 
-    #[inline]
     fn to_octant0(&self, p: Point) -> Point {
         match self.0 {
             0 => Point::new(p.0, p.1),
@@ -58,7 +46,6 @@ impl Octant {
         }
     }
 
-    #[inline]
     fn from_octant0(&self, p: Point) -> Point {
         match self.0 {
             0 => Point::new(p.0, p.1),
@@ -72,6 +59,18 @@ impl Octant {
             _ => unreachable!(),
         }
     }
+}
+
+pub struct Line {
+    x: i32,
+    y: i32,
+    dx: i32,
+    dy: i32,
+    x1: i32,
+    diff: i32,
+    octant: Octant,
+    steps: i32,
+    current: i32,
 }
 
 impl Line {
@@ -92,14 +91,15 @@ impl Line {
             x1: end.0,
             diff: dy - dx,
             octant: octant,
+            steps: (if dx > dy { dx } else { dy }) + 1,
+            current: 0,
         }
     }
 }
 
 impl Iterator for Line {
-    type Item = Point;
+    type Item = (Point, f32);
 
-    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         if self.x >= self.x1 {
             return None;
@@ -116,7 +116,10 @@ impl Iterator for Line {
 
         // loop inc
         self.x += 1;
-
-        Some(self.octant.from_octant0(p))
+        self.current += 1;
+        Some((
+            self.octant.from_octant0(p),
+            self.current as f32 / self.steps as f32,
+        ))
     }
 }
