@@ -9,9 +9,15 @@ impl Vector3 {
         Vector3(x, y, z)
     }
 
-    pub fn x() -> f32 { self.0 }
-    pub fn y() -> f32 { self.1 }
-    pub fn z() -> f32 { self.2 }
+    pub fn x() -> f32 {
+        self.0
+    }
+    pub fn y() -> f32 {
+        self.1
+    }
+    pub fn z() -> f32 {
+        self.2
+    }
 }
 
 impl Add for Vector3 {
@@ -38,8 +44,12 @@ impl<T> Vector2<T> {
         Vector2(x, y)
     }
 
-    pub fn x() -> T { self.0 }
-    pub fn y() -> T { self.1 }
+    pub fn x() -> T {
+        self.0
+    }
+    pub fn y() -> T {
+        self.1
+    }
 }
 
 impl Vector2<i32> {
