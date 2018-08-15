@@ -33,9 +33,9 @@ where
 
 impl<T> Mul<T> for Vector3<T>
 where
-    T: Mul,
+    T: Mul + Copy,
 {
-    type Output = Vector3<<T as std::ops::Mul>::Output>;
+    type Output = Vector3<<T as Mul>::Output>;
 
     fn mul(self, scalar: T) -> Self::Output {
         Vector3(self.0 * scalar, self.1 * scalar, self.2 * scalar)
