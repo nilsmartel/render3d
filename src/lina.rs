@@ -1,3 +1,4 @@
+use line::Line;
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, Copy, Clone)]
@@ -31,6 +32,12 @@ pub struct Vector2<T>(pub T, pub T);
 impl<T> Vector2<T> {
     pub fn new(x: T, y: T) -> Self {
         Vector2(x, y)
+    }
+}
+
+impl Vector2<i32> {
+    pub fn line_to(self, other: Self) -> Line {
+        Line::new(self, other)
     }
 }
 
