@@ -1,16 +1,18 @@
 use lina;
 
+type Vector3 = lina::Vector3<f32>;
+
 pub struct Mesh {
-    vertecise: Vec<lina::Vector3>,
-    normals: Vec<lina::Vector3>,
+    vertecise: Vec<Vector3>,
+    normals: Vec<Vector3>,
     uv_coordinates: Vec<lina::Vector2<f32>>,
     faces: Vec<FaceIDs>,
 }
 
 impl Mesh {
     fn new(
-        vertecise: Vec<lina::Vector3>,
-        normals: Vec<lina::Vector3>,
+        vertecise: Vec<Vector3>,
+        normals: Vec<Vector3>,
         uv_coordinates: Vec<lina::Vector2<f32>>,
         faces: Vec<FaceIDs>,
     ) -> Mesh {
@@ -22,7 +24,7 @@ impl Mesh {
         }
     }
 
-    pub fn transform(&self, matrix: &lina::Matrix3x3) -> Mesh {
+    pub fn transform(&self, matrix: &lina::Matrix3x3<f32>) -> Mesh {
         Mesh::new(
             self.vertecise.iter().map(|v| matrix * *v).collect(),
             self.normals.iter().map(|v| matrix * *v).collect(),
@@ -40,17 +42,13 @@ struct FaceIDs {
 }
 
 pub struct Face {
-    pub vertex: lina::Vector3,
-    pub normal: lina::Vector3,
+    pub vertex: Vector3,
+    pub normal: Vector3,
     pub uv_coordinate: lina::Vector2<f32>,
 }
 
 impl Face {
-    pub fn new(
-        vertex: lina::Vector3,
-        normal: lina::Vector3,
-        uv_coordinate: lina::Vector2<f32>,
-    ) -> Face {
+    pub fn new(vertex: Vector3, normal: Vector3, uv_coordinate: lina::Vector2<f32>) -> Face {
         Face {
             vertex,
             normal,

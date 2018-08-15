@@ -2,36 +2,42 @@ use line::Line;
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, Copy, Clone)]
-pub struct Vector3(f32, f32, f32);
+pub struct Vector3<T>(T, T, T);
 
-impl Vector3 {
-    pub fn new(x: f32, y: f32, z: f32) -> Vector3 {
+impl<T> Vector3<T> {
+    pub fn new(x: T, y: T, z: T) -> Self {
         Vector3(x, y, z)
     }
 
-    pub fn x() -> f32 {
+    pub fn x(self) -> T {
         self.0
     }
-    pub fn y() -> f32 {
+    pub fn y(self) -> T {
         self.1
     }
-    pub fn z() -> f32 {
+    pub fn z(self) -> T {
         self.2
     }
 }
 
-impl Add for Vector3 {
-    type Output = Self;
+impl<T> Add for Vector3<T>
+where
+    T: Add,
+{
+    type Output = Vector3<<T as Add>::Output>;
 
-    fn add(self, other: Self) -> Self {
+    fn add(self, other: Self) -> Self::Output {
         Vector3(self.0 + other.0, self.1 + other.1, self.2 + other.2)
     }
 }
 
-impl Mul<f32> for Vector3 {
-    type Output = Self;
+impl<T> Mul<T> for Vector3<T>
+where
+    T: Mul,
+{
+    type Output = Vector3<<T as std::ops::Mul>::Output>;
 
-    fn mul(self, scalar: f32) -> Self {
+    fn mul(self, scalar: T) -> Self::Output {
         Vector3(self.0 * scalar, self.1 * scalar, self.2 * scalar)
     }
 }
@@ -44,10 +50,10 @@ impl<T> Vector2<T> {
         Vector2(x, y)
     }
 
-    pub fn x() -> T {
+    pub fn x(self) -> T {
         self.0
     }
-    pub fn y() -> T {
+    pub fn y(self) -> T {
         self.1
     }
 }
@@ -80,10 +86,10 @@ where
     }
 }
 
-pub struct Matrix3x3(Vector3, Vector3, Vector3);
+pub struct Matrix3x3<T>(Vector3<T>, Vector3<T>, Vector3<T>);
 
-impl Matrix3x3 {
-    pub fn identity() -> Matrix3x3 {
+impl Matrix3x3<f32> {
+    pub fn identity() -> Self {
         Matrix3x3(
             Vector3(1.0, 0.0, 0.0),
             Vector3(0.0, 1.0, 0.0),
@@ -92,20 +98,10 @@ impl Matrix3x3 {
     }
 }
 
-impl<'a> Mul<Vector3> for &'a Matrix3x3 {
-    type Output = Vector3;
+impl<'a> Mul<Vector3<f32>> for &'a Matrix3x3<f32> {
+    type Output = Vector3<f32>;
 
-    fn mul(self, v: Vector3) -> Self::Output {
-        Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
-            + Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
-            + Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
-    }
-}
-
-impl Mul<Vector3> for Matrix3x3 {
-    type Output = Vector3;
-
-    fn mul(self, v: Vector3) -> Self::Output {
+    fn mul(self, v: Vector3<f32>) -> Self::Output {
         Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
             + Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
             + Vector3(v.0 * (self.0).0, v.1 * (self.1).1, v.2 * (self.2).2)
