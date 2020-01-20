@@ -10,3 +10,7 @@ enum Token {
     Smoothness(Option<u8>),
     Face(Option<usize>, Option<usize>, Option<usize>),
 }
+
+use nom::bytes::complete::tag;
+use nom::character::complete::char;
+use nom::IResult;
